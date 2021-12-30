@@ -1,0 +1,35 @@
+00001000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.16.01
+Created On: 30/12/2021 12:15:56
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      : part 1
+00000000                             3  * Written by : Chi Huu Huynh
+00000000                             4  * Date       : 30/12/2021
+00000000                             5  * Description: Practical 7 - Part 1
+00000000                             6  *-----------------------------------------------------------
+00001000                             7      ORG    $1000
+00001000                             8  START:                  ; first instruction of program
+00001000                             9  
+00001000                            10  * Put program code here
+00001000  123C 0009                 11      MOVE.B #9,D1 # Moves value 9 into data register 1
+00001004  1401                      12      MOVE.B D1,D2 # Copys the value 9 from data register 1 to data register 2
+00001006  11C1 044C                 13      MOVE.B D1, 1100 # Doesn't do anything
+0000100A  1438 044C                 14      MOVE.B 1100, D2 # Doesn't do anything
+0000100E  11F8 044C 0064            15      MOVE.B 1100, 100 # Doesn't do anything
+00001014                            16  
+00001014                            17  
+00001014  FFFF FFFF                 18      SIMHALT             ; halt simulator
+00001018                            19  
+00001018                            20  * Put variables and constants here
+00001018                            21  
+00001018                            22      END    START        ; last line of source
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+START               1000
