@@ -43,7 +43,7 @@ START:                  ; first instruction of program
 * Put variables and constants here
 
 input_text dc.b   'How many gamer points do you have?',0
-output_text dc.l   'Gamer points: ',0
+output_text dc.b   'Gamer points: ',0
 
     END    START        ; last line of source
 *~Font name~Courier New~

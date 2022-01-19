@@ -1,0 +1,54 @@
+00001000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.16.01
+Created On: 19/01/2022 16:44:57
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      : Part 2 - Practical 8
+00000000                             3  * Written by : Huu Chi Huynh
+00000000                             4  * Date       : 19/01/2022
+00000000                             5  * Description: 
+00000000                             6  *-----------------------------------------------------------
+00001000                             7      ORG    $1000
+00001000                             8  START:                  ; first instruction of program
+00001000                             9  
+00001000                            10  * Put program code here
+00001000                            11  
+00001000  45F9 00001026             12      LEA     Health,A2
+00001006                            13      
+00001006  5A52                      14      ADD     #5,(A2)
+00001008                            15      
+00001008  5B52                      16      SUB     #5,(A2)
+0000100A                            17      
+0000100A  1212                      18      MOVE.B  (A2),D1
+0000100C                            19      *Display D1
+0000100C  303C 0003                 20      MOVE    #3,D0
+00001010  4E4F                      21      TRAP    #15
+00001012                            22      
+00001012                            23      *Perform a left side shift and it doubles the value stored inside of D1
+00001012  E309                      24      LSL.B   #1, D1
+00001014                            25      *Display D1
+00001014  303C 0003                 26      MOVE    #3,D0
+00001018  4E4F                      27      TRAP    #15
+0000101A                            28      
+0000101A                            29      *Perform a right side shift and it divides the value by half stored inside of D1
+0000101A  E209                      30      LSR.B   #$01, D1
+0000101C                            31      *Display D1
+0000101C  303C 0003                 32      MOVE    #3,D0
+00001020  4E4F                      33      TRAP    #15
+00001022  FFFF FFFF                 34      SIMHALT             ; halt simulator
+00001026                            35  
+00001026                            36  * Put variables and constants here
+00001026                            37  
+00001026= 10                        38  Health dc.b $10
+00001027                            39  
+00001027                            40      END    START        ; last line of source
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+HEALTH              1026
+START               1000
