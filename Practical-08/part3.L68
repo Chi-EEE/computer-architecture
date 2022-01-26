@@ -1,0 +1,130 @@
+00001000 Starting Address
+Assembler used: EASy68K Editor/Assembler v5.16.01
+Created On: 26/01/2022 14:53:18
+
+00000000                             1  *-----------------------------------------------------------
+00000000                             2  * Title      : Part 3 - Practical 8
+00000000                             3  * Written by : Huu Chi Huynh
+00000000                             4  * Date       : 26/01/2022
+00000000                             5  * Description:
+00000000                             6  *-----------------------------------------------------------
+00001000                             7      ORG    $1000
+00001000                             8  START:                  ; first instruction of program    
+00001000                             9      *Output
+00001000  43F9 00001095             10      LEA ask_name, A1
+00001006  103C 000D                 11      MOVE.B #13, D0
+0000100A  4E4F                      12      TRAP #15
+0000100C                            13      
+0000100C                            14      *INPUT
+0000100C  103C 0002                 15      MOVE.B #2, D0
+00001010  4E4F                      16      TRAP #15
+00001012                            17          
+00001012  13D1 000010AE             18      MOVE.B (A1), name *Store name into name variable
+00001018                            19      
+00001018                            20      *Output
+00001018  43F9 000010AF             21      LEA confirm1, A1
+0000101E  103C 000D                 22      MOVE.B #13, D0
+00001022  4E4F                      23      TRAP #15
+00001024                            24         
+00001024                            25      *Output Name
+00001024  43F9 000010AE             26      LEA name, A1
+0000102A  103C 000D                 27      MOVE.B #13, D0
+0000102E  4E4F                      28      TRAP #15
+00001030                            29      
+00001030                            30      *Output
+00001030  43F9 000010C0             31      LEA confirm2, A1
+00001036  103C 000D                 32      MOVE.B #13, D0
+0000103A  4E4F                      33      TRAP #15
+0000103C                            34  
+0000103C                            35  Y_OR_N:
+0000103C  103C 0005                 36      MOVE.B #5, D0
+00001040  4E4F                      37      TRAP #15
+00001042                            38          
+00001042  43F9 000010C7             39      LEA YES, A1
+00001048  B2C1                      40      CMPA D1, A1
+0000104A  6700 001A                 41      BEQ NEXT *Continue
+0000104E                            42          
+0000104E  43F9 000010C9             43      LEA NO, A1
+00001054  B2C1                      44      CMPA D1, A1
+00001056  67A8                      45      BEQ START *Ask for name again
+00001058                            46      
+00001058                            47      *Output
+00001058  43F9 00001076             48      LEA invalid_response, A1
+0000105E  103C 000D                 49      MOVE.B #13, D0
+00001062  4E4F                      50      TRAP #15
+00001064                            51  
+00001064                            52      *Loop and ask question again
+00001064  60D6                      53      BRA Y_OR_N
+00001066                            54  NEXT:    
+00001066  43F9 000010CB             55      LEA ask_age, A1
+0000106C                            56      
+0000106C  103C 0012                 57      MOVE.B #18, D0
+00001070  4E4F                      58      TRAP #15
+00001072                            59  
+00001072                            60  * Put program code here
+00001072                            61      *2  Read string from keyboard and store at (A1), NULL terminated, length retuned in D1.W (max 80) 
+00001072                            62      *5 Read single character from the keyboard into D1.B.
+00001072                            63      *8  Return time in hundredths of a second since midnight in D1.L. 
+00001072                            64      *11 Position the cursor at ROW, COL.
+00001072                            65  
+00001072                            66      *The high byte of D1.W holds the COL number (0-79),  
+00001072                            67  
+00001072                            68      *The low byte holds the ROW number (0-31).
+00001072                            69  
+00001072                            70      *0,0 is top left 79,31 is the bottom right. 
+00001072                            71  
+00001072                            72      *Out of range coordinates are ignored. 
+00001072                            73  
+00001072                            74   *Clear Screen : Set D1.W to $FF00.
+00001072                            75      *13 Display the NULL terminated string at (A1) with CR, LF. DONE
+00001072                            76      *17 Combination of Trap codes 14 & 3.
+00001072                            77  
+00001072                            78   *Display the NULL terminated string at (A1) without CR, LF then
+00001072                            79  
+00001072                            80   *Display the decimal number in D1.L.
+00001072                            81      *18 Combination of Trap codes 14 & 4.
+00001072                            82   *Display the NULL terminated string at (A1) without CR, LF then
+00001072                            83   *Read a number from the keyboard into D1.L.
+00001072                            84      
+00001072                            85  *21 Set Font Color
+00001072                            86    *D1.L = color as $00BBGGRR
+00001072                            87    *           BB is amount of blue from $00 to $FF
+00001072                            88    *           GG is amount of green from $00 to $FF
+00001072                            89    *           RR is amount of red from $00 to $FF
+00001072                            90    *D2.B = style by bits,  0 = off, 1 = on
+00001072                            91    *           bit0 is Bold
+00001072                            92    *           bit1 is Italic
+00001072                            93    *           bit2 is Underline
+00001072                            94    *           bit3 is StrikeOut 
+00001072                            95  
+00001072  FFFF FFFF                 96      SIMHALT             ; halt simulator
+00001076                            97      
+00001076= 50 6C 65 61 73 65 ...     98  invalid_response dc.b 'Please enter a valid response.',0
+00001095= 50 6C 65 61 73 65 ...     99  ask_name dc.b 'Please enter your name: ',0
+000010AE= 00                       100  name dc.b '',0
+000010AF= 49 73 20 79 6F 75 ...    101  confirm1 dc.b 'Is your name... ',0
+000010C0= 59 20 6F 72 20 4E 00     102  confirm2 dc.b 'Y or N',0
+000010C7= 59 00                    103  YES dc.b 'Y',0
+000010C9= 4E 00                    104  NO dc.b 'N',0
+000010CB= 50 6C 65 61 73 65 ...    105  ask_age dc.b 'Please enter your age: ',0
+000010E3                           106  
+000010E3                           107      END    START        ; last line of source
+
+No errors detected
+No warnings generated
+
+
+SYMBOL TABLE INFORMATION
+Symbol-name         Value
+-------------------------
+ASK_AGE             10CB
+ASK_NAME            1095
+CONFIRM1            10AF
+CONFIRM2            10C0
+INVALID_RESPONSE    1076
+NAME                10AE
+NEXT                1066
+NO                  10C9
+START               1000
+YES                 10C7
+Y_OR_N              103C
