@@ -35,11 +35,13 @@ START:                  ; first instruction of program
 Y_OR_N:
     MOVE.B #5, D0
     TRAP #15
-    
-    CMP D1, y
+        
+    LEA YES, A1
+    CMPA D1, A1
     BEQ NEXT *Continue
-    
-    CMP D1, n
+        
+    LEA NO, A1
+    CMPA D1, A1
     BEQ START *Ask for name again
     
     *Output
@@ -98,8 +100,8 @@ ask_name dc.b 'Please enter your name: ',0
 name dc.b '',0
 confirm1 dc.b 'Is your name... ',0
 confirm2 dc.b 'Y or N',0
-y dc.b 'Y',0
-n dc.b 'N',0
+YES dc.b 'Y',0
+NO dc.b 'N',0
 ask_age dc.b 'Please enter your age: ',0
 
     END    START        ; last line of source
